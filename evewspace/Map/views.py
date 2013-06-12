@@ -312,7 +312,7 @@ def system_tooltips(request, map_id):
     if not request.is_ajax():
         raise PermissionDenied
     cur_map = get_object_or_404(Map, pk=map_id)
-    ms_list = cur_map.systems.all()
+    ms_list = cur_map.systems.select_related('system', 'map', 'active_pilots', 'poses', 'system__signatures').all()
     return render(request, 'system_tooltip.html', {'map_systems': ms_list})
 
 
